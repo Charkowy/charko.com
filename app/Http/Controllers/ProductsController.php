@@ -21,15 +21,8 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        $value= "";
-        $disabled= "";
-        $required= "";
-        $hidden="";
-        $state="available";
-        $routeVariable="store";
-        $method = 'POST';
-        $actionProd='Crear Producto';
-        return view('products.create', compact('method', 'value', 'disabled', 'required', 'hidden', 'state', 'routeVariable', 'actionProd'));
+      
+    return view('products.create');
     }
 
     /**
@@ -58,15 +51,8 @@ class ProductsController extends Controller
      */
     public function show(Products $product)
     {
-        $value= "";
-        $disabled= "disabled";
-        $required= "";
-        $hidden="hidden";
-        $state="available";
-        $routeVariable="";
-        $method = 'POST';
-        $actionProd='Producto';
-        return view('products.show', compact('method', 'value', 'disabled', 'required', 'hidden', 'state', 'routeVariable', 'actionProd', 'product'));
+
+        return view('products.show', compact('product'));
     
     }
 
@@ -75,21 +61,14 @@ class ProductsController extends Controller
      */
     public function edit(Products $product)
     {
-        $value= "";
-        $disabled= "";
-        $required= "";
-        $hidden="";
-        $state="available";
-        $routeVariable="update";
-        $method = 'POST';
-        $actionProd='Actualizar Producto';
-        return view('products.edit', compact('method', 'value', 'disabled', 'required', 'hidden', 'state', 'routeVariable', 'actionProd', 'product'));
+
+        return view('products.edit', compact('product'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, Products $product)
     {
         $request->validate([
             'title' => 'required',

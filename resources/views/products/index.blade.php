@@ -1,4 +1,5 @@
-
+@extends('layouts.app')
+@section('content')
 <div class="container">
     <h1>Productos</h1>
     <a href="{{ route('products.create') }}" class="btn btn-primary">Crear Nuevo Producto</a>
@@ -8,4 +9,4 @@
         @endforeach
     </ul>
 </div>
-
+@endsection
