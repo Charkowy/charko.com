@@ -5,9 +5,9 @@
         $disabled= "";
         $required= "";
         $hidden="";
-        $actionProd='Update product';
+        $actionProd='Update brand';
         $method = 'PUT';
         $routeVariable="update";
     @endphp
-    @include('includes.formprod', ['routeVariable' => $routeVariable])
+    @include('includes.brandform', ['routeVariable' => $routeVariable])
 @endsection

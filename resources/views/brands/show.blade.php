@@ -7,11 +7,10 @@
         $disabled= "disabled";
         $required= "";
         $hidden="hidden";
-        $state="available";
         $routeVariable="";
         $method = 'POST';
-        $actionProd='Product';
+        $actionProd='Brand';
         $routeVariable = 'show';
     @endphp
-    @include('includes.formprod', ['routeVariable' => $routeVariable])
+    @include('includes.brandform', ['routeVariable' => $routeVariable])
 @endsection

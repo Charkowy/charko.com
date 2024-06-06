@@ -7,8 +7,8 @@
     $hidden="";
     $routeVariable="store";
     $method = 'POST';
-    $actionProd='Create a product';
+    $actionProd='Create a Brand';
     $routeVariable = 'store'; // Define la variable que necesitas
     @endphp
-    @include('includes.formprod', ['routeVariable' => $routeVariable])
+    @include('includes.brandform', ['routeVariable' => $routeVariable])
 @endsection

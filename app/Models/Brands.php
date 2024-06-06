@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-class Products extends Model
+class Brands extends Model
 {
     use HasFactory;
     use SoftDeletes;
@@ -16,5 +16,5 @@ class Products extends Model
      * 
      */
 
-    protected $fillable = ['title', 'description', 'state', 'brand_id'];
+    protected $fillable = ['brand'];
 }

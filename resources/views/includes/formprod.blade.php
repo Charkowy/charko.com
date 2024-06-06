@@ -1,5 +1,5 @@
 <div class="container">
-    <h1>@php echo $actionProd @endphp</h1>
+    <h1>{{ $actionProd }}</h1>
     <form method="POST" action="{{ route('products.' . $routeVariable, $product ?? null) }}">
         @csrf
         @if($method !== 'POST')
@@ -16,9 +16,17 @@
         <div class="mb-3">
             <label for="state" class="form-label" >State</label>
             <select name="state" id="state" class="form-select"{{ $disabled }} >
-                <option value="available" {{ $state == 'available' ? 'selected' : '' }}>Available</option>
-                <option value="unavailable" {{ $state == 'unavailable' ? 'selected' : '' }}>Unavailable</option>
-                <option value="unknown" {{ $state == 'unknown' ? 'selected' : '' }}>Unknown</option>
+                <option value="available" {{ old('state', $product->state ?? '') == 'available' ? 'selected' : '' }}>Available</option>
+                <option value="unavailable" {{ old('state', $product->state ?? '') == 'unavailable' ? 'selected' : '' }}>Unavailable</option>
+                <option value="unknown" {{ old('state', $product->state ?? '') == 'unknown' ? 'selected' : '' }}>Unknown</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="brand" class="form-label" >Brand</label>
+            <select name="brand_id" id="brand_id" class="form-select" {{ $disabled }}>
+                @foreach($brands as $brand)
+                    <option value="{{ $brand->id }}" {{ old('brand', $product->brand_id ?? '') == $brand->id ? 'selected' : '' }}>{{ $brand->brand }}</option>
+                @endforeach
             </select>
         </div>
         <button type="submit" class="btn btn-primary" {{ $hidden }}>Guardar</button>

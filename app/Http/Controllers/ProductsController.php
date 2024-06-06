@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Products;
+use App\Models\Brands;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreProductsRequest;
+use App\Http\Requests\UpdateProductsRequest;
 
 class ProductsController extends Controller
 {
@@ -21,8 +24,8 @@ class ProductsController extends Controller
      */
     public function create()
     {
-      
-    return view('products.create');
+        $brands = Brands::all();
+        return view('products.create', compact('brands'));
     }
 
     /**
@@ -30,19 +33,20 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-      
         $request->validate([
             'title' => 'required',
             'description' => 'required',
             'state' => 'required',
+            'brand_id' => 'required|exists:brands,id',
         ]);
-        
+
         Products::create([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             'state' => $request->input('state'),
+            'brand_id' => $request->input('brand_id'),
         ]);
-        
+
         return redirect()->route('products.index')->with('success', 'The product has been successfully created.');
     }
 
@@ -51,9 +55,9 @@ class ProductsController extends Controller
      */
     public function show(Products $product)
     {
-
-        return view('products.show', compact('product'));
-    
+        $brands = Brands::all();
+      
+        return view('products.show', compact('product', 'brands'));
     }
 
     /**
@@ -61,8 +65,8 @@ class ProductsController extends Controller
      */
     public function edit(Products $product)
     {
-
-        return view('products.edit', compact('product'));
+        $brands = Brands::all();
+        return view('products.edit', compact('product', 'brands'));
     }
 
     /**
@@ -74,8 +78,9 @@ class ProductsController extends Controller
             'title' => 'required',
             'description' => 'required',
             'state' => 'required',
+            'brand_id' => 'required|exists:brands,id',
         ]);
-    
+
         $product->update($request->all());
         return redirect()->route('products.index')->with('success', 'Successfully updated product.');
     }
@@ -83,9 +88,9 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(Products $product)
     {
-    $product->delete();
-    return redirect()->route('products.index')->with('success', 'Successfully deleted product.');
+        $product->delete();
+        return redirect()->route('products.index')->with('success', 'Successfully deleted product.');
     }
 }
