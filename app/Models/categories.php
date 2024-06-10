@@ -5,10 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-class Products extends Model
+
+class categories extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    public function children()
+    {
+        return $this->hasMany(categories::class, 'parent_id');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(categories::class, 'parent_id');
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -16,5 +27,5 @@ class Products extends Model
      * 
      */
 
-    protected $fillable = ['title', 'description', 'state', 'brand_id', 'category_id'];
+    protected $fillable = ['name', 'parent_id'];
 }

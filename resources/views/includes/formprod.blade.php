@@ -29,6 +29,7 @@
                 @endforeach
             </select>
         </div>
+        
         <button type="submit" class="btn btn-primary" {{ $hidden }}>Guardar</button>
     </form>
     <a href="{{ route('products.index') }}">Back</a>
