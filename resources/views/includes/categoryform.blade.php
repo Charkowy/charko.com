@@ -12,7 +12,7 @@
         <div class="mb-3">
             <label for="parent_id" class="form-label" >Parent</label>
             <select name="parent_id" id="parent_id" class="form-select" {{ $disabled }}>
-                    <option value="null" {{ old('parent_id', $category->parent_id ?? '') == $category->id ? 'selected' : '' }}>New</option>
+                <option value="null" {{ isset($category) && old('parent_id', $category->parent_id ?? '') == $category->id ? 'selected' : '' }}>New</option>
                 @foreach($categories as $cat)
                     <option value="{{ $cat->id }}" {{ old('parent_id', $category->parent_id ?? '') == $cat->id ? 'selected' : '' }}>{{ $cat->name }}</option>
                 @endforeach

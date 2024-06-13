@@ -14,16 +14,21 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id(); // Primary key, unsignedBigInteger by default
             $table->foreignId('brand_id')->constrained('brands')->nullable();  
-            $table->foreignId('category_id')->constrained('categories')->nullable(); 
             $table->string('title');
             $table->string('description');
             $table->enum('state', ['available', 'unavailable', 'unknown']);
             $table->timestamps();
             $table->softDeletes();
-           
         });
-    }
+    
+        Schema::create('category_product', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('category_id')->constrained();
+        $table->foreignId('product_id')->constrained();
+        $table->unique(['category_id', 'product_id']);
+    });
 
+}
     /**
      * Reverse the migrations.
      */
@@ -32,10 +37,9 @@ return new class extends Migration
         Schema::table('products', function (Blueprint $table) {
             $table->dropForeign(['brand_id']); // Drop the foreign key constraint first
             $table->dropIndex(['brand_id']); // Then drop the index
-            $table->dropForeign(['category_id']); 
-            $table->dropIndex(['category_id']); 
         });
         
         Schema::dropIfExists('products');
+        Schema::dropIfExists('category_product');
     }
 };

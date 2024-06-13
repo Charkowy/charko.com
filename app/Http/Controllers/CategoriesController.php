@@ -23,6 +23,7 @@ class CategoriesController extends Controller
          */
         public function create()
         {
+ 
             $categories = categories::all();
             return view('categories.create', compact('categories'));
         }
@@ -34,17 +35,18 @@ class CategoriesController extends Controller
         {
             $request->validate([
                 'name' => 'required',
-                'parent_id' => 'required',
+                'parent_id' => 'required',  // Marcar como requerido
             ]);
-            $parent_id = $request->input('parent_id');
-
-            if ($parent_id === "null") {
-                $parent_id = null;
+        
+            $data = $request->all();
+            if ($data['parent_id'] === 'null' || $data['parent_id'] === '') {
+                $data['parent_id'] = null;
             }
+
         
             categories::create([
                 'name' => $request->input('name'),
-                'parent_id' => $parent_id,
+                'parent_id' => $data['parent_id'],
             ]);
             
             return redirect()->route('categories.index')->with('success', 'The category has been successfully created.');
@@ -64,7 +66,8 @@ class CategoriesController extends Controller
          */
         public function edit(categories $category)
         {
-            return view('categories.edit', compact('category'));
+            $categories = categories::all();
+            return view('categories.edit', compact('category', 'categories'));
         }
     
         /**
@@ -74,10 +77,15 @@ class CategoriesController extends Controller
         {
             $request->validate([
                 'name' => 'required',
-                'parent_id' => 'required',
+                'parent_id' => 'required',  // Marcar como requerido
             ]);
-            
-            $category->update($request->all());
+        
+            $data = $request->all();
+            if ($data['parent_id'] === 'null' || $data['parent_id'] === '') {
+                $data['parent_id'] = null;
+            }
+        
+            $category->update($data);
             return redirect()->route('categories.index')->with('success', 'Successfully updated category.');
         }
     
