@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Products;
 use App\Models\Brands;
+use App\Models\categories;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreProductsRequest;
 use App\Http\Requests\UpdateProductsRequest;
@@ -24,8 +25,10 @@ class ProductsController extends Controller
      */
     public function create()
     {
+        $product = new Products();
         $brands = Brands::all();
-        return view('products.create', compact('brands'));
+        $categories = categories::all();
+        return view('products.create', compact('brands', 'categories', 'product'));
     }
 
     /**
@@ -40,12 +43,14 @@ class ProductsController extends Controller
             'brand_id' => 'required|exists:brands,id',
         ]);
 
-        Products::create([
+        $product = Products::create([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             'state' => $request->input('state'),
             'brand_id' => $request->input('brand_id'),
         ]);
+
+        $product->categories()->sync($request->category_id);
 
         return redirect()->route('products.index')->with('success', 'The product has been successfully created.');
     }
@@ -56,8 +61,9 @@ class ProductsController extends Controller
     public function show(Products $product)
     {
         $brands = Brands::all();
-      
-        return view('products.show', compact('product', 'brands'));
+        $product = Products::with('categories')->findOrFail($product->id);
+        $categories = $product->categories; // Solo las categorías asociadas al producto
+        return view('products.show', compact('product', 'brands', 'categories'));
     }
 
     /**

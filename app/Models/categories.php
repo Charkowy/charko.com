@@ -28,4 +28,10 @@ class categories extends Model
      */
 
     protected $fillable = ['name', 'parent_id'];
+    public function products()
+	{
+		return $this->belongsToMany(Products::class)
+					->withPivot('id')
+					->withTimestamps();
+	}
 }

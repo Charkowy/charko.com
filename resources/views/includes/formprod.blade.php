@@ -29,7 +29,19 @@
                 @endforeach
             </select>
         </div>
-        
+        @isset($categories)
+        <div class="mb-3">
+            <label for="category" class="form-label">Category</label>
+            @foreach($categories as $category)
+                <input type="checkbox" value="{{ $category->id }}" 
+                       name="category_id[]" 
+                       {{ (in_array($category->id, old('category_id', $product->categories->pluck('id')->toArray() ?? []))) ? 'checked' : '' }} 
+                       {{ $disabled }}/> 
+                {{ $category->name }}
+            @endforeach
+        </div>
+        @endisset
+
         <button type="submit" class="btn btn-primary" {{ $hidden }}>Guardar</button>
     </form>
     <a href="{{ route('products.index') }}">Back</a>

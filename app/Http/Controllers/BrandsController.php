@@ -29,12 +29,8 @@ class BrandsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreBrandsRequest $request)
     {
-        $request->validate([
-            'brand' => 'required',
-
-        ]);
         
         Brands::create([
             'brand' => $request->input('brand'),
@@ -62,11 +58,8 @@ class BrandsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Brands $brand)
+    public function update(UpdateBrandsRequest $request, Brands $brand)
     {
-        $request->validate([
-            'brand' => 'required',
-        ]);
     
         $brand->update($request->all());
         return redirect()->route('brands.index')->with('success', 'Successfully updated brand.');

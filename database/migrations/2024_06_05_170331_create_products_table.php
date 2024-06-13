@@ -21,12 +21,13 @@ return new class extends Migration
             $table->softDeletes();
         });
     
-        Schema::create('category_product', function (Blueprint $table) {
+        Schema::create('categories_products', function (Blueprint $table) {
         $table->id();
         $table->foreignId('category_id')->constrained();
         $table->foreignId('product_id')->constrained();
         $table->unique(['category_id', 'product_id']);
-    });
+        $table->timestamps();
+        });
 
 }
     /**
@@ -40,6 +41,6 @@ return new class extends Migration
         });
         
         Schema::dropIfExists('products');
-        Schema::dropIfExists('category_product');
+        Schema::dropIfExists('categories_products');
     }
 };
