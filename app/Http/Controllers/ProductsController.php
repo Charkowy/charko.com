@@ -14,6 +14,7 @@ class ProductsController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
         $products = Products::all();
@@ -34,21 +35,12 @@ class ProductsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreProductsRequest $request)
     {
-        $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'state' => 'required',
-            'brand_id' => 'required|exists:brands,id',
-        ]);
-
-        $product = Products::create([
-            'title' => $request->input('title'),
-            'description' => $request->input('description'),
-            'state' => $request->input('state'),
-            'brand_id' => $request->input('brand_id'),
-        ]);
+        $validatedData = $request->validated();
+        $product = new Products();
+        $validatedData['price'] = $product->priceWithTax($validatedData['price']);
+        $product = Products::create($validatedData);
 
         $product->categories()->sync($request->category_id);
 

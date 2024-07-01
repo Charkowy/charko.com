@@ -1,7 +1,6 @@
 <?php
 
 namespace Database\Seeders;
-
 class categoriesFile
 {
     public static function womenFashion(): array

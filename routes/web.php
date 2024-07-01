@@ -5,10 +5,6 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\BrandsController;
 use App\Http\Controllers\CategoriesController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::resource('products', ProductsController::class);
 Route::delete('/products/{product}', [ProductsController::class, 'destroy'])->name('products.delete');
 

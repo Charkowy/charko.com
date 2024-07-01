@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('brand_id')->constrained('brands')->nullable();  
             $table->string('title');
             $table->string('description');
+            $table->integer('price');
             $table->enum('state', ['available', 'unavailable', 'unknown']);
             $table->timestamps();
             $table->softDeletes();

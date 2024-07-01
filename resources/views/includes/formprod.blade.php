@@ -14,6 +14,10 @@
             <textarea class="form-control" id="description" name="description" rows="3" {{ $disabled }} {{ $required }}>{{ old('description', $product->description ?? '') }}</textarea>
         </div>
         <div class="mb-3">
+            <label for="price" class="form-label">Price with taxes</label>
+            <input class="form-control" id="price" name="price" value="{{ old('price', $product->price ?? '') }}" {{ $disabled }} {{ $required }}>
+        </div>
+        <div class="mb-3">
             <label for="state" class="form-label" >State</label>
             <select name="state" id="state" class="form-select"{{ $disabled }} >
                 <option value="available" {{ old('state', $product->state ?? '') == 'available' ? 'selected' : '' }}>Available</option>
@@ -41,7 +45,15 @@
             @endforeach
         </div>
         @endisset
-
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
         <button type="submit" class="btn btn-primary" {{ $hidden }}>Guardar</button>
     </form>
     <a href="{{ route('products.index') }}">Back</a>
