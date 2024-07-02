@@ -14,9 +14,15 @@
             <textarea class="form-control" id="description" name="description" rows="3" {{ $disabled }} {{ $required }}>{{ old('description', $product->description ?? '') }}</textarea>
         </div>
         <div class="mb-3">
-            <label for="price" class="form-label">Price with taxes</label>
+            <label for="price" class="form-label">Price</label>
             <input class="form-control" id="price" name="price" value="{{ old('price', $product->price ?? '') }}" {{ $disabled }} {{ $required }}>
         </div>
+        @isset($taxes)
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="add_taxes" name="add_taxes">
+            <label class="form-check-label" for="add_taxes">Add taxes to price?</label>
+        </div>
+        @endisset
         <div class="mb-3">
             <label for="state" class="form-label" >State</label>
             <select name="state" id="state" class="form-select"{{ $disabled }} >
@@ -29,20 +35,23 @@
             <label for="brand" class="form-label" >Brand</label>
             <select name="brand_id" id="brand_id" class="form-select" {{ $disabled }}>
                 @foreach($brands as $brand)
-                    <option value="{{ $brand->id }}" {{ old('brand', $product->brand_id ?? '') == $brand->id ? 'selected' : '' }}>{{ $brand->brand }}</option>
+                    <option value="{{ $brand->id }}" {{ old('brand_id', $product->brand_id ?? '') == $brand->id ? 'selected' : '' }}>{{ $brand->brand }}</option>
                 @endforeach
             </select>
         </div>
         @isset($categories)
         <div class="mb-3">
             <label for="category" class="form-label">Category</label>
-            @foreach($categories as $category)
-                <input type="checkbox" value="{{ $category->id }}" 
-                       name="category_id[]" 
-                       {{ (in_array($category->id, old('category_id', $product->categories->pluck('id')->toArray() ?? []))) ? 'checked' : '' }} 
-                       {{ $disabled }}/> 
-                {{ $category->name }}
-            @endforeach
+            <div>
+                @foreach($categories as $category)
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="{{ $category->id }}" id="category_{{ $category->id }}" name="category_id[]" {{ (in_array($category->id, old('category_id', $product->categories->pluck('id')->toArray() ?? []))) ? 'checked' : '' }} {{ $disabled }}>
+                        <label class="form-check-label" for="category_{{ $category->id }}">
+                            {{ $category->name }}
+                        </label>
+                    </div>
+                @endforeach
+            </div>
         </div>
         @endisset
         @if ($errors->any())

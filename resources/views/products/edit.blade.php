@@ -7,6 +7,7 @@
     'hidden' => '',
     'actionProd' => 'Update product',
     'method' => 'PUT',
-    'routeVariable' => 'update'
+    'routeVariable' => 'update',
+    'taxes' => '1'
 ])
 @endsection

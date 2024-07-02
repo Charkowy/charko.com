@@ -45,7 +45,9 @@ class ProductsController extends Controller
     {
         $validatedData = $request->validated();
         $product = new Products();
-        $validatedData['price'] = $product->priceWithTax($validatedData['price']);
+        if ($request->has('add_taxes') && $request->input('add_taxes')) {
+            $validatedData['price'] = $product->priceWithTax($validatedData['price']);
+        }
         $product = Products::create($validatedData);
 
         $product->categories()->sync($request->category_id);
@@ -70,22 +72,28 @@ class ProductsController extends Controller
     public function edit(Products $product)
     {
         $brands = Brands::all();
-        return view('products.edit', compact('product', 'brands'));
+        $categories = categories::all();
+        return view('products.edit', compact('product', 'brands', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Products $product)
+    public function update(StoreProductsRequest $request, Products $product)
     {
-        $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'state' => 'required',
-            'brand_id' => 'required|exists:brands,id',
-        ]);
+        $validatedData = $request->validated();
+ 
+        $product = Products::findOrFail($product->id);
+    
+        if ($request->has('add_taxes') && $request->input('add_taxes')) {
+            $validatedData['price'] = $product->priceWithTax($validatedData['price']);
+        }
+        
+        $product->update($validatedData);
+    
+        $product->categories()->sync($request->category_id);
+    
 
-        $product->update($request->all());
         return redirect()->route('products.index')->with('success', 'Successfully updated product.');
     }
 

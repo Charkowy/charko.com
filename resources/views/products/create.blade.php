@@ -7,6 +7,7 @@
     'hidden' => '',
     'routeVariable' => 'store',
     'method' => 'POST',
-    'actionProd' => 'Create a product'
+    'actionProd' => 'Create a product',
+    'taxes' => '1'
 ])
 @endsection
