@@ -15,9 +15,15 @@ class ProductsController extends Controller
      * Display a listing of the resource.
      */
 
-    public function index()
+    public function index(Request $request)
     {
-        $products = Products::all();
+        $query = Products::query();
+
+        if ($request->has('order')) {
+            $query->orderBy('price', $request->order);
+        }
+
+        $products  = $query->paginate(3);
         return view('products.index', compact('products'));
     }
 
