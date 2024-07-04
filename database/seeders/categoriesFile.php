@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Seeders;
+
 class categoriesFile
 {
     public static function womenFashion(): array
@@ -2165,7 +2166,7 @@ class categoriesFile
     public static function sportsAndOutdoor(): array
     {
 
-        return  [
+        return [
             'name' => 'Sports & Outdoor',
             'children' => [
                 [
@@ -2300,7 +2301,7 @@ class categoriesFile
     public static function motorAndDie(): array
     {
 
-        return  [
+        return [
 
             'name' => 'Motor, Tools & DIY',
             'children' => [

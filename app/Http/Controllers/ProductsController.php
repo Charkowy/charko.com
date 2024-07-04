@@ -32,10 +32,9 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        $product = new Products();
-        $brands = Brands::all();
-        $categories = categories::all();
-        return view('products.create', compact('brands', 'categories', 'product'));
+        /* $brands = Brands::all();
+        $categories = categories::all(); */
+        return view('products.create');
     }
 
     /**
@@ -43,10 +42,11 @@ class ProductsController extends Controller
      */
     public function store(StoreProductsRequest $request)
     {
+        //dd($request->all());
         $validatedData = $request->validated();
         $product = new Products();
         if ($request->has('add_taxes') && $request->input('add_taxes')) {
-            $validatedData['price'] = $product->priceWithTax($validatedData['price']);
+            $validatedData['price'] = $product->priceWithTax($request->price);
         }
         $product = Products::create($validatedData);
 
