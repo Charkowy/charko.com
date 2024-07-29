@@ -12,4 +12,6 @@ Route::resource('brands', BrandsController::class);
 //Route::delete('/brands/{brand}', [BrandsController::class, 'destroy'])->name('brands.delete');
 
 Route::resource('categories', CategoriesController::class);
-//Route::delete('/categories/{category}', [CategoriesController::class, 'destroy'])->name('categories.delete');
+Route::delete('/categories/{category}', [CategoriesController::class, 'destroy'])->name('categories.delete');
+
+Route::view('home', 'home');
